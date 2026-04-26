@@ -9,7 +9,7 @@ func main() {
 	fmt.Println("Go-Lox interpreter started.")
 
 	args := os.Args
-	interpreter := &Interpreter{}
+	interpreter := NewInterpreter()
 
 	if len(args) > 2 {
 		fmt.Fprintln(os.Stderr, "[Error] Correct usage: 'go run . [script_name].'")

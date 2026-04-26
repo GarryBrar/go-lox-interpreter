@@ -8,7 +8,11 @@ import (
 )
 
 type Interpreter struct {
-	hadError bool
+	errors *ErrorHandler
+}
+
+func NewInterpreter() *Interpreter {
+	return &Interpreter{errors: &ErrorHandler{}}
 }
 
 func (i *Interpreter) runFile(arg string) {
@@ -18,7 +22,7 @@ func (i *Interpreter) runFile(arg string) {
 		os.Exit(66)
 	}
 	i.run(string(bytes))
-	if i.hadError {
+	if i.errors.hadError {
 		os.Exit(65)
 	}
 }
@@ -34,19 +38,13 @@ func (i *Interpreter) runPrompt() {
 			break
 		}
 		i.run(strings.TrimSpace(line))
-		i.hadError = false
+		i.errors.hadError = false
 	}
 }
 
 func (i *Interpreter) run(source string) {
-	fmt.Println(source)
-}
-
-func (i *Interpreter) error(line int, message string) {
-	i.report(line, "", message)
-}
-
-func (i *Interpreter) report(line int, where, message string) {
-	fmt.Fprintf(os.Stderr, "[line %d] Error%s: %s\n", line, where, message)
-	i.hadError = true
+	scanner := NewScanner(source, i.errors)
+	for _, token := range scanner.ScanTokens() {
+		fmt.Println(token)
+	}
 }

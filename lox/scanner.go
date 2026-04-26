@@ -1,16 +1,16 @@
 package main
 
 type Scanner struct {
-	source  string
-	tokens  []Token
-	start   int
-	current int
-	line    int
+	source   string
+	tokens   []Token
+	start    int
+	current  int
+	line     int
+	reporter ErrorReporter
 }
 
-func NewScanner(source string) Scanner {
-	s := Scanner{source: source}
-	return s
+func NewScanner(source string, reporter ErrorReporter) Scanner {
+	return Scanner{source: source, reporter: reporter}
 }
 
 func (s *Scanner) ScanTokens() []Token {
@@ -50,6 +50,8 @@ func (s *Scanner) scanToken() {
         s.addToken(SEMICOLON)
     case '*':
         s.addToken(STAR)
+    default:
+        s.reporter.error(s.line, "Unexpected character.")
     }
 }
 
