@@ -50,7 +50,7 @@ type Token struct {
 	tokenType  TokenType
 	lexeme     string
 	lineNumber int
-	literal interface{}
+	literal    interface{}
 }
 
 func (t Token) String() string {
