@@ -6,10 +6,10 @@ type Scanner struct {
 	start    int
 	current  int
 	line     int
-	reporter ErrorReporter
+	reporter *ErrorHandler
 }
 
-func NewScanner(source string, reporter ErrorReporter) Scanner {
+func NewScanner(source string, reporter *ErrorHandler) Scanner {
 	return Scanner{source: source, reporter: reporter}
 }
 

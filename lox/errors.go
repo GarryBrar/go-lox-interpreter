@@ -5,10 +5,6 @@ import (
 	"os"
 )
 
-type ErrorReporter interface {
-	error(line int, message string)
-}
-
 type ErrorHandler struct {
 	hadError bool
 }
